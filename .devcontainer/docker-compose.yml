@@ -1,0 +1,10 @@
+version: "3"
+services:
+  python:
+    build: ./
+    image: atcoder-python3
+    container_name: atcoder-python3
+    tty: true
+    volumes: 
+      - ../../atcoder:/atcoder
+    

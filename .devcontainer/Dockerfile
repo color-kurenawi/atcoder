@@ -5,6 +5,9 @@ ARG GROUPNAME=color_kurenawi
 ARG USER_UID=1000
 ARG USER_GID=1000
 
+COPY requirements.txt /atcoder/
+RUN pip install -r /atcoder/requirements.txt
+
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \

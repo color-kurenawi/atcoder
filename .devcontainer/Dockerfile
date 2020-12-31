@@ -5,19 +5,25 @@ ARG GROUPNAME=color_kurenawi
 ARG USER_UID=1000
 ARG USER_GID=1000
 
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update \
+    && groupadd --gid $USER_GID $GROUPNAME \
+    && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && apt-get -y install sudo \ 
+    && echo $USERNAME ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
 COPY requirements.txt /atcoder/
 RUN pip install -r /atcoder/requirements.txt
-
-ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
     && apt-get install -y nodejs npm \
     && npm install -g atcoder-cli
 
-RUN groupadd --gid $USER_GID $GROUPNAME \
-    && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && apt-get -y install sudo \ 
-    && echo $USERNAME ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
+USER $USERNAME
+COPY atcoder-cli-config.sh  /tmp
+RUN sh /tmp/atcoder-cli-config.sh
+
 
 ENV PATH /home/$USERNAME/.local/bin:$PATH

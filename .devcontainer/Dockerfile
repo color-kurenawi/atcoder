@@ -11,7 +11,10 @@ RUN pip install -r /atcoder/requirements.txt
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
-    && groupadd --gid $USER_GID $GROUPNAME \
+    && apt-get install -y nodejs npm \
+    && npm install -g atcoder-cli
+
+RUN groupadd --gid $USER_GID $GROUPNAME \
     && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
     && apt-get -y install sudo \ 
     && echo $USERNAME ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \

@@ -15,6 +15,9 @@ ln -s /atcoder/templates/python $acc_config_dir/python
 # デフォルトのテンプレートをpythonに設定する．
 acc config default-template python
 
+# atcoderにログインするためのaliasを設定する．
+echo 'alias oj-l="oj login https://atcoder.jp/"' >> ~/.bash_aliases
+
 # テストを簡単化するためのaliasを設定する
 echo "alias oj-t='oj t -c \"python3.8 main.py ONLINE_JUDGE\"'" >> ~/.bash_aliases
 echo "alias oj-t-pypy='oj t -c \"pypy3 main.py\"'" >> ~/.bash_aliases

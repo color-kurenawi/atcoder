@@ -14,3 +14,6 @@ ln -s /atcoder/templates/python $acc_config_dir/python
 
 # デフォルトのテンプレートをpythonに設定する．
 acc config default-template python
+
+# pypyの提出用にaliasを設定する
+echo 'alias acc-s-pypy="acc s main.py -- --guess-python-interpreter pypy"' >> ~/.bash_aliases

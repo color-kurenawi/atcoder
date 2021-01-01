@@ -14,6 +14,10 @@ RUN apt-get update \
     && echo $USERNAME ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
+RUN wget -P /tmp/ https://downloads.python.org/pypy/pypy3.7-v7.3.3-linux64.tar.bz2 \
+    && tar -xf /tmp/pypy3.7-v7.3.3-linux64.tar.bz2 -C /opt/ \
+    && ln -s /opt/pypy3.7-v7.3.3-linux64/bin/pypy3  /usr/local/bin/pypy3
+
 COPY requirements.txt /atcoder/
 RUN pip install -r /atcoder/requirements.txt
 

@@ -19,7 +19,8 @@ RUN wget -P /tmp/ https://downloads.python.org/pypy/pypy3.7-v7.3.3-linux64.tar.b
     && ln -s /opt/pypy3.7-v7.3.3-linux64/bin/pypy3  /usr/local/bin/pypy3
 
 COPY requirements.txt /atcoder/
-RUN pip install -r /atcoder/requirements.txt
+RUN python -m pip install --upgrade pip \
+    && pip install -r /atcoder/requirements.txt
 
 RUN apt-get update \
     && apt-get install -y nodejs npm \

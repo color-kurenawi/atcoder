@@ -23,7 +23,9 @@ RUN python -m pip install --upgrade pip \
     && pip install -r /atcoder/requirements.txt
 
 RUN apt-get update \
-    && apt-get install -y nodejs npm \
+    && wget -P /tmp/ https://deb.nodesource.com/setup_12.x \
+    && bash /tmp/setup_12.x \
+    && apt-get install -y build-essential nodejs\
     && npm install -g atcoder-cli
 
 USER ${USERNAME}

@@ -8,11 +8,11 @@ ARG USER_GID=1000
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
-    && groupadd --gid $USER_GID $GROUPNAME \
-    && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && groupadd --gid ${USER_GID} ${GROUPNAME} \
+    && useradd -s /bin/bash --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} \
     && apt-get -y install sudo \ 
-    && echo $USERNAME ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
+    && echo ${USERNAME} ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
+    && chmod 0440 /etc/sudoers.d/${USERNAME}
 
 RUN wget -P /tmp/ https://downloads.python.org/pypy/pypy3.7-v7.3.3-linux64.tar.bz2 \
     && tar -xf /tmp/pypy3.7-v7.3.3-linux64.tar.bz2 -C /opt/ \
@@ -25,9 +25,9 @@ RUN apt-get update \
     && apt-get install -y nodejs npm \
     && npm install -g atcoder-cli
 
-USER $USERNAME
+USER ${USERNAME}
 COPY atcoder-cli-config.sh  /tmp
 RUN sh /tmp/atcoder-cli-config.sh
 
 
-ENV PATH /home/$USERNAME/.local/bin:$PATH
+ENV PATH /home/${USERNAME}/.local/bin:$PATH

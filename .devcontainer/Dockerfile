@@ -31,6 +31,3 @@ RUN apt-get update \
 USER ${USERNAME}
 COPY atcoder-cli-config.sh  /tmp
 RUN sh /tmp/atcoder-cli-config.sh
-
-
-ENV PATH /home/${USERNAME}/.local/bin:$PATH

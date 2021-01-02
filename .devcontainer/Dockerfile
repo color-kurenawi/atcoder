@@ -25,7 +25,7 @@ RUN python -m pip install --upgrade pip \
 RUN apt-get update \
     && wget -P /tmp/ https://deb.nodesource.com/setup_12.x \
     && bash /tmp/setup_12.x \
-    && apt-get install -y build-essential nodejs\
+    && apt-get install -y build-essential nodejs time \
     && npm install -g atcoder-cli
 
 USER ${USERNAME}

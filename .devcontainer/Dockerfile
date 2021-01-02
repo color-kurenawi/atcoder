@@ -18,9 +18,9 @@ RUN wget -P /tmp/ https://downloads.python.org/pypy/pypy3.7-v7.3.3-linux64.tar.b
     && tar -xf /tmp/pypy3.7-v7.3.3-linux64.tar.bz2 -C /opt/ \
     && ln -s /opt/pypy3.7-v7.3.3-linux64/bin/pypy3  /usr/local/bin/pypy3
 
-COPY requirements.txt /atcoder/
+COPY requirements.txt /tmp/
 RUN python -m pip install --upgrade pip \
-    && pip install -r /atcoder/requirements.txt
+    && pip install -r /tmp/requirements.txt
 
 RUN apt-get update \
     && wget -P /tmp/ https://deb.nodesource.com/setup_12.x \

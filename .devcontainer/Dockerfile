@@ -7,6 +7,7 @@ ARG USER_GID=1000
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# user add and as add the user to sudoers
 RUN apt-get update \
     && groupadd --gid ${USER_GID} ${GROUPNAME} \
     && useradd -s /bin/bash --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} \
@@ -14,20 +15,24 @@ RUN apt-get update \
     && echo ${USERNAME} ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME}
 
+# pypy3 installation
 RUN wget -P /tmp/ https://downloads.python.org/pypy/pypy3.7-v7.3.3-linux64.tar.bz2 \
     && tar -xf /tmp/pypy3.7-v7.3.3-linux64.tar.bz2 -C /opt/ \
     && ln -s /opt/pypy3.7-v7.3.3-linux64/bin/pypy3  /usr/local/bin/pypy3
 
+# Python third party library installation
 COPY requirements.txt /tmp/
 RUN python -m pip install --upgrade pip \
     && pip install -r /tmp/requirements.txt
 
+# atcoder-cli installation (Node.js & npm are required by atcoder-cli)
 RUN apt-get update \
     && wget -P /tmp/ https://deb.nodesource.com/setup_12.x \
     && bash /tmp/setup_12.x \
     && apt-get install -y build-essential nodejs time \
     && npm install -g atcoder-cli
 
+# atcoder-cli settings
 USER ${USERNAME}
 COPY atcoder-cli-config.sh  /tmp
 RUN sh /tmp/atcoder-cli-config.sh

@@ -12,7 +12,7 @@ VSCode with VSCode Remote Containersでの利用を想定していますが，Do
 - AtCoderとほぼ同等*なPyPy3環境
 - **online-judge-tools**，**actoder-cli** を用いた自動テスト，自動提出
 
-*AtCoderではPyPy3.6-3.7.0ですが，ビルド済のソースが見つからなかったため，このリポジトリではPyPy3.7-3.7.7を用いています．
+*AtCoderではPyPy3.6-3.7.0ですが，ビルド済のソースが見つからなかったため，このリポジトリではPyPy3.6-3.7.7を用いています．
 
 ## 使い方
 
@@ -86,4 +86,4 @@ acc s
   - numba==0.48.0
   - networkx==2.4
 
-- PyPy 3.7-3.7.3
+- PyPy 3.6-3.7.3

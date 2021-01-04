@@ -1,78 +1,47 @@
 #!/usr/bin/env python3
+
 import argparse
 import subprocess
-import json
 import os
 
 DEFAULT_LANGUAGE = "cpython"
-PYTHON_TEMPLATE_NAME = "main.py"
-JSON_NAME = "contest.acc.json"
-JSON_ROOT = "../"
+DEFAULT_SUBMIT_TARGET = "main.py"
+DEFAULT_WAIT_TIME = "0"
 
 def get_args():
-    parser = argparse.ArgumentParser(description="oj t command in online-judge-tools wrapper")
-    parser.add_argument('-l', "--language", type=str, default=DEFAULT_LANGUAGE, help="select submit language")
+    parser = argparse.ArgumentParser(description="oj command wrapper for submit to AtCoder")
+    parser.add_argument('-l', "--language", type=str, default=DEFAULT_LANGUAGE, help="submit language")
+    parser.add_argument('-t', "--target", type=str, default=DEFAULT_SUBMIT_TARGET, help="target file for submit")
+    parser.add_argument('-w', "--wait", type=str, default=DEFAULT_WAIT_TIME, help="wait time before submit")
     
     args = parser.parse_args()
     return args
 
-def get_json_path():
-    json_path = os.path.join(JSON_ROOT, JSON_NAME)
-    return json_path
-
-def get_submit_url():
-    json_path = get_json_path()
-    return json_path
-
-def get_target_parent_dir():
-    cwd = os.getcwd()
-    parent_dir = cwd.split("/")[-1]
-    return parent_dir    
-
-def get_json_info():
-    json_path = get_json_path()
-        
-    with open(json_path, "r") as f:
-        json_dict = json.load(f)
-
-    parent_dir = get_target_parent_dir()
-    
-    task_dicts = json_dict["tasks"]
-    json_info = {}
-    
-    for task_dict in task_dicts:
-        if task_dict["directory"]["path"] == parent_dir:
-            json_info = task_dict
-    
-    return json_info
-    
-def get_submit_info():
-    submit_info = get_args().__dict__
-    
-    json_info = get_json_info()
-    submit_info["url"] = json_info["url"]
-    
-    return submit_info
+def get_args_info():
+    args = get_args()
+    args_info = args.__dict__
+    return args_info
     
 def make_command():
-    submit_info = get_submit_info()
-    language = submit_info["language"]
-    submit_url = submit_info["url"]
-        
-    command_elements = ["oj", "s", submit_url]
+    args_info = get_args_info()
+    language = args_info["language"]
+    submit_target = args_info["target"]
+    
+    command_elements = ["oj", "s", submit_target]
     
     if language in ["cpython", "pypy"]:
-        python_elements = [PYTHON_TEMPLATE_NAME, "--guess-python-interpreter", language]
+        python_elements = ["--guess-python-interpreter", language]
         command_elements.extend(python_elements)
         
-    command_elements.append("--wait 0")
+    wait_time = args_info["wait"]
+    command_elements.extend(["--wait", wait_time])
     
     command = " ".join(command_elements)
     return command
 
 def submit():
     command = make_command()
-    subprocess.call(command, shell=True)
+    subprocess.run(command, shell=True)
 
 def main():
     submit()

@@ -1,0 +1,7 @@
+# 設定参考:https://github.com/online-judge-tools/template-generator#oj-prepare 
+
+contest_directory = "{contest_id}"
+problem_directory = "{problem_id}"
+
+[templates]
+"main.py" = "/atcoder/templates/python/main.py"

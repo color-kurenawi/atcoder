@@ -29,7 +29,7 @@ RUN python -m pip install --upgrade pip \
 RUN apt-get update \
     && apt-get install -y time
 USER ${USERNAME}
-COPY oj-setup.sh /tmp
+COPY oj-setup.sh oj_aliases /tmp/
 RUN bash /tmp/oj-setup.sh
 
 ENV DEBIAN_FRONTEND newt

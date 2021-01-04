@@ -37,4 +37,8 @@ USER ${USERNAME}
 COPY atcoder-cli-config.sh  /tmp
 RUN sh /tmp/atcoder-cli-config.sh
 
+# oj-prepare setup
+COPY oj-prepare-setup.sh /tmp
+RUN bash /tmp/oj-prepare-setup.sh
+
 ENV DEBIAN_FRONTEND newt

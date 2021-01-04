@@ -10,7 +10,7 @@ VSCode with VSCode Remote Containersでの利用を想定していますが，Do
 
 - AtCoderにおけるPython3環境の再現
 - AtCoderとほぼ同等*なPyPy3環境
-- **online-judge-tools**，**actoder-cli** を用いた自動テスト，自動提出
+- **online-judge-tools**，**online-judge-template-generator** を用いた自動テスト，自動提出
 
 *AtCoderではPyPy3.6-3.7.0ですが，ビルド済のソースが見つからなかったため，このリポジトリではPyPy3.6-3.7.7を用いています．
 
@@ -39,7 +39,7 @@ VSCode上でコマンドパレットを開き(Ctrl+Shift+P)，`Remote-Containers
 #### online-judge-tools，atcoer-cliにログイン
 
 ```bash
-ac-login
+oj-l
 ```
 
 #### コンテスト用ディレクトリに移動
@@ -53,13 +53,13 @@ cd contests/
 atcodee-cliのコマンドを利用し，問題ごとにディレクトリを作成，テンプレートとしてmain.pyを作成します．また，new以下の**abc187**はコンテストIDを指します．コンテストIDは，コンテストtopページ(https://<span>atcoder<span>.jp/contests/**abc187**)の最後の部分です．
 
 ```bash
-acc new abc187
+oj-new abc187
 ```
 
 #### 問題の解答
 
-ABC187のA問題を解くとします．テンプレートが`contests/abc187/a/main.py`
-に作成されているので`contests/abc187/a`に移動して，問題を解いていきます．
+ABC187のA問題を解くとします．テンプレートが`contests/abc187/abc187_a/main.py`
+に作成されているので`contests/abc187/abc187_a`に移動して，問題を解いていきます．
 
 #### 解答の自動テスト，自動提出
 
@@ -72,7 +72,7 @@ oj-t
 また，自動提出は同ディレクトリにおいて
 
 ```bash
-acc s
+oj-submit
 ```
 
 で行うことができます．

@@ -2,6 +2,9 @@
 
 # 注意:oj-prepareの設定ファイルは~/以下なので，事前にコンテナ内で作業するユーザに切り替えておく必要がある．
 
+# oj-submitのシンボリックリンクを張る．
+sudo ln -s /atcoder/scripts/oj-submit /usr/local/bin/
+
 # oj-prepareの設定ファイル用のディレクトリを作る
 mkdir ~/.config/online-judge-tools/
 

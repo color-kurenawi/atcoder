@@ -8,3 +8,4 @@ networkx==2.4
 
 # AtCoderでは使わない有用なライブラリ
 online-judge-tools
+online-judge-template-generator

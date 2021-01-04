@@ -25,16 +25,11 @@ COPY requirements.txt /tmp/
 RUN python -m pip install --upgrade pip \
     && pip install -r /tmp/requirements.txt
 
-# atcoder-cli installation (Node.js & npm are required by atcoder-cli)
+# oj-tools setup
 RUN apt-get update \
-    && wget -P /tmp/ https://deb.nodesource.com/setup_12.x \
-    && bash /tmp/setup_12.x \
-    && apt-get install -y build-essential nodejs time \
-    && npm install -g atcoder-cli
-
-# atcoder-cli settings
+    && apt-get install -y time
 USER ${USERNAME}
-COPY atcoder-cli-config.sh  /tmp
-RUN sh /tmp/atcoder-cli-config.sh
+COPY oj-setup.sh oj_aliases /tmp/
+RUN bash /tmp/oj-setup.sh
 
 ENV DEBIAN_FRONTEND newt

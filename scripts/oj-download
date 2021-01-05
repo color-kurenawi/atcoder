@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+
+import argparse
+import subprocess
+import json
+import toml
+import os
+
+ATCODER_ROOT = "https://atcoder.jp/"
+OJ_PREPARE_CONFIG_PATH = os.path.join(os.environ["HOME"], ".config/online-judge-tools/prepare.config.toml")
+
+def get_args():
+    parser = argparse.ArgumentParser(description="oj-prepare wrapper for atcoder")
+    parser.add_argument("contest_id", type=str, help="set atcoder contest_id")
+    args = parser.parse_args()
+    return args
+
+def get_args_info():
+    args = get_args()
+    args_info = args.__dict__
+    return args_info
+    
+def get_url_from_contest_id(contest_id):
+    url = os.path.join(ATCODER_ROOT, "contests", contest_id)
+    return url
+
+def get_contest_info(url):
+    command_elements = ["oj-api", "get-contest", url]
+    command = " ".join(command_elements)
+    command_result = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True).communicate()[0]
+    contest_info = json.loads(command_result)
+    return contest_info
+
+def read_config():
+    config = toml.load(OJ_PREPARE_CONFIG_PATH, _dict=dict)
+    return config
+
+def download():
+    pass
+    
+def get_contest_dir(config, contest_id):
+    dir_name = config["contest_directory"].replace("{contest_id}", contest_id)
+    return dir_name
+
+def get_problem_dir(config, contest_id, problem_id):
+    trans_dict = {
+    "{problem_id}": problem_id,
+    "{contest_id}": contest_id,
+    }
+    
+    dir_name = config["problem_directory"]
+    for key, value in trans_dict.items():
+        dir_name = dir_name.replace(key, value)
+    return dir_name
+
+def problem_download(config, problem, contest_id):
+    problem_url = problem["url"]
+    problem_id = problem_url.split("/")[-1]
+    
+    problem_dir = get_problem_dir(config, contest_id, problem_id)
+    
+    try:
+        os.makedirs(problem_dir)
+    except FileExistsError:
+        abs_path = os.path.join(os.getcwd(), problem_dir)
+        print("already {} exist".format(abs_path))
+    
+    command_elements = ["oj", "download", problem_url]
+    command = " ".join(command_elements)
+    subprocess.run(command, cwd=problem_dir, shell=True)
+    
+    return
+    
+
+def oj_download():
+    args_info = get_args_info()
+    contest_id = args_info["contest_id"]
+    url = get_url_from_contest_id(contest_id)
+    contest_info = get_contest_info(url)
+    
+    config = read_config()
+    contest_dir = get_contest_dir(config, contest_id)
+    
+    try:
+        os.makedirs(contest_dir)
+    except FileExistsError:
+        abs_path = os.path.join(os.getcwd(), contest_dir)
+        print("already {} exist".format(abs_path))
+    
+    problem_info = contest_info["result"]["problems"]
+    
+    os.chdir(contest_dir)
+    
+    for problem in problem_info:
+         problem_download(config, problem, contest_id)
+    
+    return
+
+def main():
+    # get_contest_info("https://atcoder.jp/contests/abc187")
+    # config = read_config()
+    # contest_dir = config["contest_directory"]
+    # print(contest_dir)
+    oj_download()
+
+if __name__ == "__main__":
+    main()

@@ -6,13 +6,14 @@
 sudo ln -s /atcoder/scripts/oj-submit /usr/local/bin/
 
 # oj-prepareの設定ファイル用のディレクトリを作る
-mkdir ~/.config/online-judge-tools/
+mkdir -p ~/.config/online-judge-tools/
 
 # 設定ファイルのシンボリックリンクを張る
 ln -s /atcoder/.devcontainer/prepare.config.toml ~/.config/online-judge-tools/
 
 # /usr/local/bin/にラッパーのシンボリックリンクを張る．
 sudo ln -s /atcoder/scripts/oj-new /usr/local/bin/
+sudo ln -s /atcoder/scripts/oj-download /usr/local/bin/
 
 # alias集を~/.bash_aliasesに追加する．
 cat /tmp/oj_aliases >> ~/.bash_aliases

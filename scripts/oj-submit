@@ -7,6 +7,7 @@ import os
 DEFAULT_LANGUAGE = "cpython"
 DEFAULT_SUBMIT_TARGET = "main.py"
 DEFAULT_WAIT_TIME = "0"
+ATCODER_ROOT = "https://atcoder.jp/"
 
 def get_args():
     parser = argparse.ArgumentParser(description="oj command wrapper for submit to AtCoder")
@@ -21,13 +22,21 @@ def get_args_info():
     args = get_args()
     args_info = args.__dict__
     return args_info
-    
+
+def get_guessed_url():
+    cwd = os.getcwd()
+    problem_id = os.path.split(cwd)[-1]
+    contest_id = problem_id.split("_")[0]
+    guessed_url = os.path.join(ATCODER_ROOT, "contests", contest_id, "tasks", problem_id)
+    return guessed_url
+
 def make_command():
     args_info = get_args_info()
     language = args_info["language"]
     submit_target = args_info["target"]
+    url = get_guessed_url()
     
-    command_elements = ["oj", "s", submit_target]
+    command_elements = ["oj", "s", url, submit_target]
     
     if language in ["cpython", "pypy"]:
         python_elements = ["--guess-python-interpreter", language]

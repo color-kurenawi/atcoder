@@ -36,7 +36,7 @@ def get_guessed_url():
     return guessed_url
 
 def check_problem_url(url):
-    command_elements = ["oj-api", "get-problem", url]
+    command_elements = ["oj-api", "--wait", "0", "get-problem", url]
     command = " ".join(command_elements)
     response = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True).communicate()[0]
     status = json.loads(response)["status"]

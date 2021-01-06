@@ -5,6 +5,7 @@ import subprocess
 import os
 import json
 from time import time
+from urllib.parse import urlparse
 
 DEFAULT_LANGUAGE = "cpython"
 DEFAULT_SUBMIT_TARGET = "main.py"
@@ -34,22 +35,57 @@ def get_guessed_url():
     guessed_url = os.path.join(ATCODER_ROOT, "contests", contest_id, "tasks", problem_id)
     return guessed_url
 
-def write_dummy_history():
+def check_problem_url(url):
+    command_elements = ["oj-api", "--wait", "0", "get-problem", url]
+    command = " ".join(command_elements)
+    response = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True).communicate()[0]
+    status = json.loads(response)["status"]
+    
+    if status == "ok": return True
+    else: return False
+
+def url_input():
+    input_info = input("input problem's URL or problem_id (ex. abc187_a)\ninput:")
+    
+    if urlparse(input_info).scheme != "":
+        input_url = input_info
+        print("input url: {}".format(input_url))
+        return input_url
+    
+    else:
+        problem_id = input_info
+        contest_id = problem_id.split("_")[0]
+        guessed_url = os.path.join(ATCODER_ROOT, "contests", contest_id, "tasks", problem_id)
+        print("guessed url: {}".format(guessed_url))
+        return guessed_url
+    
+def write_dummy_history(problem_url):
     timestamp = int(time())
-    url = get_guessed_url()
     directory = os.getcwd()
-    dummy_history_dict = {"timestamp":timestamp, "directory":directory, "url":url}
+    dummy_history_dict = {"timestamp":timestamp, "directory":directory, "url":problem_url}
     dummy_history = json.dumps(dummy_history_dict) + "\n"
     
     with open(OJ_DOWNLOAD_HISTORY_PATH, mode='a') as f:
         f.write(dummy_history)
     return
 
+def get_problem_url():
+    url = get_guessed_url()
+    print("guessed url: \"{}\"".format(url))
+    
+    while check_problem_url(url) != True:
+        print("Failure: \"{}\" is invalid URL".format(url))
+        url = url_input()
+    
+    return url
+
 def make_command():
     args_info = get_args_info()
     language = args_info["language"]
     submit_target = args_info["target"]
-    url = get_guessed_url()
+
+    url = get_problem_url()
+    write_dummy_history(url)
     
     command_elements = ["oj", "s", url, submit_target]
     
@@ -68,7 +104,6 @@ def submit():
     subprocess.run(command, shell=True)
 
 def main():
-    write_dummy_history()
     submit()
     
 if __name__ == "__main__":

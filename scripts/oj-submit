@@ -60,11 +60,10 @@ def url_input():
         return guessed_url
     
 
-def write_dummy_history():
+def write_dummy_history(problem_url):
     timestamp = int(time())
-    url = get_guessed_url()
     directory = os.getcwd()
-    dummy_history_dict = {"timestamp":timestamp, "directory":directory, "url":url}
+    dummy_history_dict = {"timestamp":timestamp, "directory":directory, "url":problem_url}
     dummy_history = json.dumps(dummy_history_dict) + "\n"
     
     with open(OJ_DOWNLOAD_HISTORY_PATH, mode='a') as f:
@@ -76,7 +75,7 @@ def make_command():
     language = args_info["language"]
     submit_target = args_info["target"]
     url = get_guessed_url()
-    
+    write_dummy_history(url)
     command_elements = ["oj", "s", url, submit_target]
     
     if language in ["cpython", "pypy"]:
@@ -94,7 +93,6 @@ def submit():
     subprocess.run(command, shell=True)
 
 def main():
-    write_dummy_history()
     submit()
     
 if __name__ == "__main__":

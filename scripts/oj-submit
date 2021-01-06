@@ -34,8 +34,8 @@ def get_guessed_url():
     guessed_url = os.path.join(ATCODER_ROOT, "contests", contest_id, "tasks", problem_id)
     return guessed_url
 
-def check_url(url):
-    command_elements = ["oj-api", "get-contest", url]
+def check_problem_url(url):
+    command_elements = ["oj-api", "get-problem", url]
     command = " ".join(command_elements)
     response = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True).communicate()[0]
     status = json.loads(response)["status"]

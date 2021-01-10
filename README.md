@@ -36,7 +36,7 @@ VSCode上でコマンドパレットを開き(Ctrl+Shift+P)，`Remote-Containers
 
 コンテスト中は，`contests/`以下で作業します．ここでは，AtCoder Beginner Contest 187(以下，ABC187)において自動テスト，自動提出を行う例を示します．
 
-#### online-judge-tools，atcoer-cliにログイン
+#### online-judge-toolsでAtCoderにログイン
 
 ```bash
 oj-l

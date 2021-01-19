@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+
+import argparse
+import subprocess
+
+DEFAULT_LANGUAGE = "cpython"
+DEFAULT_TEST_TARGET = "main.py"
+
+def get_args():
+    parser = argparse.ArgumentParser(description="oj command wrapper for test")
+    parser.add_argument('-l', "--language", type=str, default=DEFAULT_LANGUAGE, help="test language")
+    parser.add_argument('-t', "--target", type=str, default=DEFAULT_TEST_TARGET, help="target file for test")
+    
+    args = parser.parse_args()
+    return args
+
+def get_args_info():
+    args = get_args()
+    args_info = args.__dict__
+    return args_info
+
+def make_command():
+    args_info = get_args_info()
+    language = args_info["language"]
+    test_target = args_info["target"]
+    
+    
+    command_elements = ["oj", "test"]
+    
+    test_target = args_info["target"]
+    if language == "cpython":
+        additional_command = "\"python3.8 {test_target} ONLINEJUDGE\"".format(test_target=test_target)
+        additinal_elements = ["-c", additional_command]
+    elif language == "pypy":
+        additional_command = "\"pypy3 {test_target}\"".format(test_target=test_target)
+        additinal_elements = ["-c", additional_command]
+    
+    command_elements.extend(additinal_elements)
+
+    command = " ".join(command_elements)
+    return command
+
+def oj_test():
+    command = make_command()
+    subprocess.run(command, shell=True)    
+
+def main():
+    oj_test()
+
+if __name__ == "__main__":
+    main()

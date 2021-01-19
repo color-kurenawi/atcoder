@@ -16,5 +16,8 @@ sudo ln -s /atcoder/scripts/oj-new /usr/local/bin/
 sudo ln -s /atcoder/scripts/oj-download /usr/local/bin/
 sudo ln -s /atcoder/scripts/oj-test /usr/local/bin/
 
+# 補助コマンドのシンボリックリンクを張る
+sudo ln -s /atcoder/scripts/prepare-template /usr/local/bin/
+
 # alias集を~/.bash_aliasesに追加する．
 cat /tmp/oj_aliases >> ~/.bash_aliases

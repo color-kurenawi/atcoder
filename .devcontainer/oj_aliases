@@ -3,6 +3,3 @@
 # oj-toolsでatcoderにログインするためのalias
 alias oj-l="oj login https://atcoder.jp/"
 
-# テストを簡単化するためのalias
-alias oj-t='oj t -c "python3.8 main.py ONLINE_JUDGE"'
-alias oj-t-pypy='oj t -c "pypy3 main.py"'

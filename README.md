@@ -66,7 +66,7 @@ ABC187のA問題を解くとします．テンプレートが`contests/abc187/ab
 ABC187のA問題の自動テストをするには，`contests/abc187/a`において
 
 ```bash
-oj-t
+oj-test
 ```
 
 また，自動提出は同ディレクトリにおいて

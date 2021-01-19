@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+
+import argparse
+import subprocess
+import os
+
+DEFAULT_LANGUAGE = "python"
+TEMPLATE_ROOT = "/atcoder/templates"
+
+def get_args():
+    parser = argparse.ArgumentParser(description="copy template to current directory")
+    parser.add_argument('-l', "--language", type=str, default=DEFAULT_LANGUAGE, help="template language")
+    parser.add_argument('-n', "--name", type=str, help="output name")
+    
+    args = parser.parse_args()
+    return args
+
+def get_args_info():
+    args = get_args()
+    args_info = args.__dict__
+    return args_info
+
+def get_default_output_name(language):
+    if language == "python": return "main.py"
+
+def get_template_path(language):
+    if language == "python":
+        template_name = "main.py"
+        
+    template_path = os.path.join(TEMPLATE_ROOT, language, template_name)
+    return template_path
+
+def make_command():
+    args_info = get_args_info()
+    language = args_info["language"]
+    
+    template_path = get_template_path(language)
+    
+    if args_info["name"] is not None:
+        output_name = args_info["name"]
+    else:
+        output_name = get_default_output_name(language)
+    
+    command_elements = ["cp", template_path, output_name]
+
+    command = " ".join(command_elements)
+    return command
+
+def prepare_template():
+    command = make_command()
+    subprocess.run(command, shell=True)    
+
+def main():
+    prepare_template()
+
+if __name__ == "__main__":
+    main()

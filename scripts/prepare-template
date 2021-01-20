@@ -22,10 +22,13 @@ def get_args_info():
 
 def get_default_output_name(language):
     if language == "python": return "main.py"
+    elif language == "cpp": return "main.cpp"
 
 def get_template_path(language):
     if language == "python":
         template_name = "main.py"
+    elif language == "cpp":
+        template_name = "main.cpp"
         
     template_path = os.path.join(TEMPLATE_ROOT, language, template_name)
     return template_path

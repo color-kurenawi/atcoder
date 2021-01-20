@@ -19,29 +19,57 @@ def get_args_info():
     args_info = args.__dict__
     return args_info
 
-def make_command():
-    args_info = get_args_info()
-    language = args_info["language"]
-    test_target = args_info["target"]
+def get_target_ext(test_target):
+    target_ext = test_target.split(".")[-1]
+    return target_ext
     
+def get_test_info():
+    test_info = get_args_info()
+    
+    test_target = test_info["target"]
+    target_ext = get_target_ext(test_target)
+    
+    test_info["ext"] = target_ext
+    
+    return test_info
+
+def cpp_compile(test_target):
+    command_elements = ["g++", test_target]
+    command = " ".join(command_elements)
+    
+    subprocess.run(command, shell=True)
+    return
+
+def make_command(test_info):
+    language = test_info["language"]
+    test_target = test_info["target"]
     
     command_elements = ["oj", "test"]
     
-    test_target = args_info["target"]
-    if language == "cpython":
-        additional_command = "\"python3.8 {test_target} ONLINEJUDGE\"".format(test_target=test_target)
-        additinal_elements = ["-c", additional_command]
-    elif language == "pypy":
-        additional_command = "\"pypy3 {test_target}\"".format(test_target=test_target)
-        additinal_elements = ["-c", additional_command]
+    test_target = test_info["target"]
+    target_ext = test_info["ext"] 
     
-    command_elements.extend(additinal_elements)
+    if target_ext == "py":    
+        if language == "cpython":
+            additional_command = "\"python3.8 {test_target} ONLINEJUDGE\"".format(test_target=test_target)
+            additinal_elements = ["-c", additional_command]
+            command_elements.extend(additinal_elements)
+        elif language == "pypy":
+            additional_command = "\"pypy3 {test_target}\"".format(test_target=test_target)
+            additinal_elements = ["-c", additional_command]
+            command_elements.extend(additinal_elements)
+    
 
     command = " ".join(command_elements)
     return command
 
 def oj_test():
-    command = make_command()
+    test_info = get_test_info()
+    if test_info["ext"] == "cpp":
+        test_target = test_info["target"]
+        cpp_compile(test_target)
+        
+    command = make_command(test_info)
     subprocess.run(command, shell=True)    
 
 def main():

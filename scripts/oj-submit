@@ -30,8 +30,17 @@ def get_args_info():
 
 def get_guessed_url():
     cwd = os.getcwd()
-    problem_id = os.path.split(cwd)[-1]
-    contest_id = problem_id.split("_")[0]
+    
+    parent_dir = os.path.split(cwd)[-1]
+    print(os.path.split(cwd))
+    if len(parent_dir) == 1:
+        contest_alphabet = parent_dir
+        contest_id = cwd.split("/")[-2]
+        problem_id = "_".join([contest_id, contest_alphabet])
+    else:
+        contest_id = cwd.split("/")[-2]
+        problem_id = parent_dir
+    
     guessed_url = os.path.join(ATCODER_ROOT, "contests", contest_id, "tasks", problem_id)
     return guessed_url
 

@@ -11,8 +11,9 @@ DEFAULT_LANGUAGE = "cpython"
 DEFAULT_SUBMIT_TARGET = "main.py"
 DEFAULT_WAIT_TIME = "0"
 ATCODER_ROOT = "https://atcoder.jp/"
-OJ_DOWNLOAD_HISTORY_PATH = os.path.join(os.environ["HOME"], ".cache/online-judge-tools/download-history.jsonl")
-
+OJ_DOWNLOAD_HISTORY_DIR = os.path.join(os.environ["HOME"], ".cache/online-judge-tools/")
+OJ_DOWNLOAD_HISTORY_NAME = "download-history.jsonl"
+OJ_DOWNLOAD_HISTORY_PATH = os.path.join(OJ_DOWNLOAD_HISTORY_DIR, OJ_DOWNLOAD_HISTORY_NAME)
 
 def get_args():
     parser = argparse.ArgumentParser(description="oj command wrapper for submit to AtCoder")
@@ -65,6 +66,8 @@ def write_dummy_history(problem_url):
     dummy_history_dict = {"timestamp":timestamp, "directory":directory, "url":problem_url}
     dummy_history = json.dumps(dummy_history_dict) + "\n"
     
+    if not os.path.isdir(OJ_DOWNLOAD_HISTORY_DIR):
+        os.makedirs(OJ_DOWNLOAD_HISTORY_DIR)
     with open(OJ_DOWNLOAD_HISTORY_PATH, mode='a') as f:
         f.write(dummy_history)
     return

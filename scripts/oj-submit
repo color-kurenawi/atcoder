@@ -32,7 +32,6 @@ def get_guessed_url():
     cwd = os.getcwd()
     
     parent_dir = os.path.split(cwd)[-1]
-    print(os.path.split(cwd))
     if len(parent_dir) == 1:
         contest_alphabet = parent_dir
         contest_id = cwd.split("/")[-2]

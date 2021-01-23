@@ -31,8 +31,16 @@ def get_args_info():
 
 def get_guessed_url():
     cwd = os.getcwd()
-    problem_id = os.path.split(cwd)[-1]
-    contest_id = problem_id.split("_")[0]
+    
+    parent_dir = os.path.split(cwd)[-1]
+    if len(parent_dir) == 1:
+        contest_alphabet = parent_dir
+        contest_id = cwd.split("/")[-2]
+        problem_id = "_".join([contest_id, contest_alphabet])
+    else:
+        contest_id = cwd.split("/")[-2]
+        problem_id = parent_dir
+    
     guessed_url = os.path.join(ATCODER_ROOT, "contests", contest_id, "tasks", problem_id)
     return guessed_url
 
@@ -45,6 +53,15 @@ def check_problem_url(url):
     if status == "ok": return True
     else: return False
 
+def url_from_problem_id(problem_id):
+    if problem_id.startswith("past"):
+        contest = problem_id.split("_")[0]
+        contest_id = contest + "-open"
+    else:
+        contest_id = problem_id.split("_")[0]
+    guessed_url = os.path.join(ATCODER_ROOT, "contests", contest_id, "tasks", problem_id)
+    return guessed_url
+
 def url_input():
     input_info = input("input problem's URL or problem_id (ex. abc187_a)\ninput:")
     
@@ -55,8 +72,7 @@ def url_input():
     
     else:
         problem_id = input_info
-        contest_id = problem_id.split("_")[0]
-        guessed_url = os.path.join(ATCODER_ROOT, "contests", contest_id, "tasks", problem_id)
+        guessed_url = url_from_problem_id(problem_id)
         print("guessed url: {}".format(guessed_url))
         return guessed_url
     

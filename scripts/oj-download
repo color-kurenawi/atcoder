@@ -97,10 +97,6 @@ def oj_download():
     return
 
 def main():
-    # get_contest_info("https://atcoder.jp/contests/abc187")
-    # config = read_config()
-    # contest_dir = config["contest_directory"]
-    # print(contest_dir)
     oj_download()
 
 if __name__ == "__main__":

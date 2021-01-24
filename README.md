@@ -12,7 +12,7 @@ VSCode with VSCode Remote Containersでの利用を想定していますが，Do
 - AtCoderとほぼ同等*なPyPy3環境
 - **online-judge-tools**，**online-judge-template-generator** を用いた自動テスト，自動提出
 
-*AtCoderではPyPy3.6-3.7.0ですが，ビルド済のソースが見つからなかったため，このリポジトリではPyPy3.6-3.7.7を用いています．
+*AtCoderではPyPy3.6-3.7.0ですが，ビルド済のソースが見つからなかったため，このリポジトリではPyPy3.6-3.7.3を用いています．
 
 ## 使い方
 
@@ -63,7 +63,7 @@ ABC187のA問題を解くとします．テンプレートが`contests/abc187/ab
 
 #### 解答の自動テスト，自動提出
 
-ABC187のA問題の自動テストをするには，`contests/abc187/a`において
+ABC187のA問題の自動テストをするには，`contests/abc187/abc187_a`において
 
 ```bash
 oj-test

@@ -51,7 +51,7 @@ def make_command(test_info):
     
     if target_ext == "py":    
         if language == "cpython":
-            additional_command = "\"python3.8 {test_target} ONLINEJUDGE\"".format(test_target=test_target)
+            additional_command = "\"python3.8 {test_target} ONLINE_JUDGE\"".format(test_target=test_target)
             additinal_elements = ["-c", additional_command]
             command_elements.extend(additinal_elements)
         elif language == "pypy":

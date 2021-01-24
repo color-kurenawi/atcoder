@@ -44,7 +44,7 @@ def make_command():
     else:
         output_name = get_default_output_name(language)
     
-    command_elements = ["cp", template_path, output_name]
+    command_elements = ["cp", "-i", template_path, output_name]
 
     command = " ".join(command_elements)
     return command
